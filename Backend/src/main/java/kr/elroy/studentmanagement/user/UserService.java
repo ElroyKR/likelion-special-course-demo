@@ -24,6 +24,7 @@ public class UserService {
                 .password(encodedPassword)
                 .email(request.email())
                 .birthDate(request.birthDate())
+                .userType(request.userType())
                 .build();
 
         return userRepository.save(entity);
@@ -37,15 +38,15 @@ public class UserService {
             user.setName(request.name());
         }
 
-        if (request.address() != null) {
-            user.setAddress(request.address());
-        }
-
         if (request.birthDate() != null) {
             user.setBirthDate(request.birthDate());
         }
 
-        return user;
+        if (request.userType() != null) {
+            user.setUserType(request.userType());
+        }
+
+        return userRepository.save(user);
     }
 
     @Transactional(readOnly = true)
