@@ -1,11 +1,7 @@
 package kr.elroy.studentmanagement.user.domain;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EntityListeners;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import kr.elroy.studentmanagement.user.enums.UserType;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -31,26 +27,25 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "name", nullable = false, length = 24, unique = true)
+    @Column(name = "name", nullable = false, length = 24)
     private String name;
 
     @Column(name = "password", nullable = false)
     private String password;
 
-    @Column(name = "email", nullable = false)
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
 
-    @Nullable
-    @Column(name = "address")
-    private String address;
-
-    @Nullable
-    @Column(name = "birth_date")
+    @Column(name = "birth_date", nullable = false)
     private LocalDate birthDate;
 
     @CreatedDate
     @Column(name = "created_at", updatable = false, nullable = false)
     private LocalDateTime createdAt;
+
+    @Column(name = "user_type", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private UserType userType;
 
     @Override
     public boolean equals(Object o) {

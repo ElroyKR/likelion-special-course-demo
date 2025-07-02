@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Pattern;
+import kr.elroy.studentmanagement.user.enums.UserType;
 import org.jspecify.annotations.NonNull;
 
 import java.time.LocalDate;
@@ -26,6 +27,9 @@ public record CreateUserRequest(
 
         @PastOrPresent
         @Schema(description = "생년월일")
-        LocalDate birthDate
+        LocalDate birthDate,
+
+        @Schema(description = "유저 타입", example = "STUDENT")
+        UserType userType
 ) {
 }

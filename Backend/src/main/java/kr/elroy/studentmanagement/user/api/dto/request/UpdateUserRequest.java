@@ -1,6 +1,7 @@
 package kr.elroy.studentmanagement.user.api.dto.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import kr.elroy.studentmanagement.user.enums.UserType;
 import org.jspecify.annotations.Nullable;
 
 import java.time.LocalDate;
@@ -12,11 +13,11 @@ public record UpdateUserRequest(
         String name,
 
         @Nullable
-        @Schema(description = "유저 주소", nullable = true)
-        String address,
+        @Schema(description = "유저 생일", nullable = true)
+        LocalDate birthDate,
 
         @Nullable
-        @Schema(description = "유저 생일", nullable = true)
-        LocalDate birthDate
+        @Schema(description = "유저 타입", nullable = true)
+        UserType userType
 ) {
 }
