@@ -2,6 +2,7 @@ package kr.elroy.studentmanagement.user.api;
 
 import kr.elroy.studentmanagement.user.UserService;
 import kr.elroy.studentmanagement.user.api.dto.request.CreateUserRequest;
+import kr.elroy.studentmanagement.user.api.dto.request.SignInUserRequest;
 import kr.elroy.studentmanagement.user.api.dto.request.UpdateUserRequest;
 import kr.elroy.studentmanagement.user.api.dto.response.UserResponse;
 import kr.elroy.studentmanagement.user.domain.User;
@@ -26,6 +27,11 @@ public class UserController implements UserApi {
     @Override
     public UserResponse updateUser(Long userId, UpdateUserRequest request) {
         return toUserResponse(userService.updateUser(userId, request));
+    }
+
+    @Override
+    public UserResponse signIn(SignInUserRequest signInUserRequest) {
+        return toUserResponse(userService.loginUser(signInUserRequest));
     }
 
     private UserResponse toUserResponse(User user) {

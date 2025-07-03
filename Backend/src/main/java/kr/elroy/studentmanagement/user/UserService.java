@@ -1,13 +1,16 @@
 package kr.elroy.studentmanagement.user;
 
 import kr.elroy.studentmanagement.user.api.dto.request.CreateUserRequest;
+import kr.elroy.studentmanagement.user.api.dto.request.SignInUserRequest;
 import kr.elroy.studentmanagement.user.api.dto.request.UpdateUserRequest;
 import kr.elroy.studentmanagement.user.domain.User;
+import kr.elroy.studentmanagement.user.exception.InvalidPasswordException;
 import kr.elroy.studentmanagement.user.exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 
 @RequiredArgsConstructor
 @Service
@@ -54,5 +57,12 @@ public class UserService {
         return userRepository
                 .findById(id)
                 .orElseThrow(UserNotFoundException::new);
+    }
+
+    public User loginUser(SignInUserRequest signInUserRequest){
+        User user = userRepository.findByEmail(signInUserRequest.getEmail()).orElseThrow(UserNotFoundException::new);
+        if (bCryptPasswordEncoder.matches(signInUserRequest.getPassword(), user.getPassword())) {
+            return user;
+        } else throw new InvalidPasswordException();
     }
 }
