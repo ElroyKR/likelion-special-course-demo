@@ -4,7 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 @Schema(description = "강의 생성 요청")
 public record CreateCourseRequest(
-        @Schema(description = "교수 ID", example = "1")
+        @Schema(description = "교수 User ID", example = "1")
         Long professorId,
 
         @Schema(description = "학과 ID", example = "1")

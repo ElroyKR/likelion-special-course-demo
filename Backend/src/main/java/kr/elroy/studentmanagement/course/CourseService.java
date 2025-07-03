@@ -2,12 +2,14 @@ package kr.elroy.studentmanagement.course;
 
 import kr.elroy.studentmanagement.course.api.dto.request.CreateCourseRequest;
 import kr.elroy.studentmanagement.course.domain.Course;
+import kr.elroy.studentmanagement.course.exception.CourseInvalidUserTypeException;
 import kr.elroy.studentmanagement.course.exception.CourseNotFoundException;
 import kr.elroy.studentmanagement.department.DepartmentRepository;
 import kr.elroy.studentmanagement.department.domain.Department;
 import kr.elroy.studentmanagement.department.exception.DepartmentNotFoundException;
 import kr.elroy.studentmanagement.user.UserRepository;
 import kr.elroy.studentmanagement.user.domain.User;
+import kr.elroy.studentmanagement.user.enums.UserType;
 import kr.elroy.studentmanagement.user.exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -25,7 +27,9 @@ public class CourseService {
         User professor = userRepository.findById(request.professorId())
                 .orElseThrow(UserNotFoundException::new);
 
-        // TODO: Check user's role (e.g., professor) before proceeding
+        if (professor.getUserType() != UserType.PROFESSOR) {
+            throw new CourseInvalidUserTypeException();
+        }
 
         Department department = departmentRepository.findById(request.departmentId())
                 .orElseThrow(DepartmentNotFoundException::new);
