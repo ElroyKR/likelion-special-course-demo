@@ -11,7 +11,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
 @RequiredArgsConstructor
 @Service
 public class UserService {
@@ -59,10 +58,14 @@ public class UserService {
                 .orElseThrow(UserNotFoundException::new);
     }
 
-    public User loginUser(SignInUserRequest signInUserRequest){
-        User user = userRepository.findByEmail(signInUserRequest.getEmail()).orElseThrow(UserNotFoundException::new);
-        if (bCryptPasswordEncoder.matches(signInUserRequest.getPassword(), user.getPassword())) {
-            return user;
-        } else throw new InvalidPasswordException();
+    public User loginUser(SignInUserRequest signInUserRequest) {
+        User user = userRepository
+                .findByEmail(signInUserRequest.getEmail())
+                .orElseThrow(UserNotFoundException::new);
+
+        if (!bCryptPasswordEncoder.matches(signInUserRequest.getPassword(), user.getPassword()))
+            throw new InvalidPasswordException();
+
+        return user;
     }
 }
